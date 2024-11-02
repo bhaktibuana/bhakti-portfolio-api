@@ -39,13 +39,10 @@ lerna-debug.log*
 # dotenv environment variable files
 .env
 .env.*
-environment/*
-!environment/env.example
 
 # temp directory
 .temp
 .tmp
-tmp
 
 # Runtime data
 pids
