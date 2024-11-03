@@ -2,7 +2,10 @@ import { Response } from 'express';
 
 import { Helper } from '@/shared/helpers';
 import { Service } from '@/shared/libs/service.lib';
-import { UserRegisterRequestBody } from '@/transport/requests/user.request';
+import {
+	UserLoginRequestBody,
+	UserRegisterRequestBody,
+} from '@/transport/requests/user.request';
 import { UserRepository } from '@/app/repositories';
 import { User } from '@/app/models/user.model';
 
@@ -46,6 +49,41 @@ export class UserService extends Service {
 			);
 		} catch (error) {
 			await this.catchErrorHandler(res, error, this.register.name);
+		}
+		return null;
+	}
+
+	/**
+	 * User Login Service
+	 *
+	 * @param res
+	 * @param reqBody
+	 * @returns
+	 */
+	public async login(res: Response, reqBody: UserLoginRequestBody) {
+		try {
+			const payload = {
+				email: reqBody.email.toLowerCase(),
+				password: Helper.hash(reqBody.password),
+			};
+
+			const user = await this.userRepo.findLogin(
+				res,
+				payload.email,
+				payload.password,
+			);
+
+			if (!user)
+				this.errorHandler(
+					this.STATUS_CODE.NOT_FOUND,
+					'Wrong email or password',
+				);
+
+			const token = Helper.generateJWT(user!.dataValues, '7d');
+
+			return { user, token };
+		} catch (error) {
+			await this.catchErrorHandler(res, error, this.login.name);
 		}
 		return null;
 	}
