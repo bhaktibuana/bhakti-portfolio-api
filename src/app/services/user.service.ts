@@ -79,7 +79,7 @@ export class UserService extends Service {
 					'Wrong email or password',
 				);
 
-			const token = Helper.generateJWT(user!, '7d');
+			const token = Helper.generateJWT(user!.dataValues, '7d');
 
 			return { user, token };
 		} catch (error) {
