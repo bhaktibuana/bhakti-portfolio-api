@@ -11,6 +11,7 @@ export class UserRepository extends Repository {
 	/**
 	 * Find One by Email
 	 *
+	 * @param res
 	 * @param email
 	 * @returns
 	 */
@@ -27,6 +28,29 @@ export class UserRepository extends Repository {
 			});
 		} catch (error) {
 			await this.catchErrorHandler(res, error, this.findOneByEmail.name);
+		}
+		return result;
+	}
+
+	/**
+	 * Create User
+	 *
+	 * @param res
+	 * @param email
+	 * @param password
+	 * @returns
+	 */
+	public async create(
+		res: Response,
+		email: string,
+		password: string,
+	): Promise<User | null> {
+		let result: User | null = null;
+
+		try {
+			result = await User.create({ email, password });
+		} catch (error) {
+			await this.catchErrorHandler(res, error, this.create.name);
 		}
 		return result;
 	}
