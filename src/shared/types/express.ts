@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { User } from '@/app/models/user.model';
+import { T_UserAuth } from '@/shared/types';
 
 declare namespace e {
 	type Next = NextFunction;
@@ -11,7 +11,7 @@ declare namespace e {
 		{
 			base_url: string;
 			request_id: string;
-			user: User;
+			user: T_UserAuth;
 		}
 	>;
 }

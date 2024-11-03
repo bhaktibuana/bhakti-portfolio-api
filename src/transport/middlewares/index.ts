@@ -3,6 +3,7 @@ import { Next, Req, Res } from '@/shared/types/express';
 import { UserService } from '@/app/services';
 import { User } from '@/app/models/user.model';
 import { Helper } from '@/shared/helpers';
+import { T_UserAuth } from '@/shared/types';
 
 export class Middleware extends BaseMiddleware {
 	private userSvc: UserService;
@@ -48,7 +49,15 @@ export class Middleware extends BaseMiddleware {
 				(decoded as User['dataValues']).id as number,
 			);
 
-			res.locals.user = user as User;
+			if (user) {
+				res.locals.user = user.dataValues as T_UserAuth;
+			} else {
+				this.errorHandler(
+					this.STATUS_CODE.BAD_REQUEST,
+					'Failed to get user data',
+				);
+			}
+
 			next();
 		} catch (error) {
 			await this.catchErrorHandler(res, error, this.auth.name);
