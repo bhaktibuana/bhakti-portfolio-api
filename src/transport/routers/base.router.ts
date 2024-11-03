@@ -17,7 +17,7 @@ export abstract class BaseRouter {
 	 */
 	protected index(appRouter: Router): void {
 		this.router.use((req: Req, res: Res, next: Next): void => {
-			if (Config.app.NODE_ENV === 'production') {
+			if (Config.app.NODE_ENV === Constant.app.ENV_PROD) {
 				res.locals.base_url = Config.app.BASE_URL;
 			} else {
 				res.locals.base_url = `${req.protocol}://${req.headers.host}`;

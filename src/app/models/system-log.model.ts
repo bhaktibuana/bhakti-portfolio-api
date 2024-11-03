@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
-import { Document, Model as MongoModel, Schema } from 'mongoose';
+import { Document, Model, Schema } from 'mongoose';
 
-import { Model } from '@/shared/libs/model.lib';
+import { MongoModel } from '@/shared/libs/mongo-model.lib';
 import { Mongo } from '@/shared/utils';
 
 export interface S_SystemLog extends S_SystemLogBase, Document {}
@@ -68,7 +68,7 @@ class SystemLogSchema {
 	}
 }
 
-export class SystemLog extends Model<S_SystemLog> {
+export class SystemLog extends MongoModel<S_SystemLog> {
 	public payload: S_SystemLogBase = {} as S_SystemLogBase;
 
 	constructor() {
@@ -77,7 +77,7 @@ export class SystemLog extends Model<S_SystemLog> {
 				(Mongo.getUtilityDbConnection().model<S_SystemLog>(
 					'system_log',
 					SystemLogSchema.getSchema(),
-				) as MongoModel<S_SystemLog>),
+				) as Model<S_SystemLog>),
 		);
 	}
 

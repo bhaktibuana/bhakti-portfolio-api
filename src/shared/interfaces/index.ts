@@ -23,3 +23,7 @@ export interface I_VerifiedJWT<T> {
 	error: VerifyErrors | null;
 	decoded: (JwtPayload & T) | Object;
 }
+
+export interface I_ModelWithAssociate {
+	associate?: () => void;
+}

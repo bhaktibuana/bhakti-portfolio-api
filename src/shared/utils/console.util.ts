@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import chalk from 'chalk';
 
 import { Config } from '@/config';
+import { Constant } from '@/shared/constants';
 import { T_Console } from '@/shared/types';
 
 export class Console {
@@ -48,7 +49,7 @@ export class Console {
 	 * @param payload
 	 */
 	private static console<T>(type: T_Console, payload: T): void {
-		if (Config.app.NODE_ENV === 'production') return;
+		if (Config.app.NODE_ENV === Constant.app.ENV_PROD) return;
 
 		let title = 'LOG';
 		let titleColor = chalk.blueBright;

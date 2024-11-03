@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { ObjectId } from 'bson';
 import {
 	Document,
-	Model as MongoModel,
+	Model,
 	PipelineStage,
 	ProjectionType,
 	QueryOptions,
@@ -10,13 +10,13 @@ import {
 	UpdateQuery,
 } from 'mongoose';
 
-export abstract class Model<T extends Document> {
-	protected model: MongoModel<T>;
+export abstract class MongoModel<T extends Document> {
+	protected model: Model<T>;
 	private baseQuery: RootQuerySelector<T> = { deleted_at: null };
 	private baseProjection: ProjectionType<T> = { __v: 0 };
 	private defaultOptions: QueryOptions<T> = { sort: { created_at: -1 } };
 
-	constructor(model: MongoModel<T>) {
+	constructor(model: Model<T>) {
 		this.model = model;
 	}
 

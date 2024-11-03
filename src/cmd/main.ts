@@ -4,8 +4,9 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 
 import { Config } from '@/config';
-import { Console, Mongo, Network } from '@/shared/utils';
+import { Console, Mongo, MySQL, Network } from '@/shared/utils';
 import { Routers } from '@/transport/routers';
+import { Associate } from '@/app/models/associate';
 
 class Main {
 	private app: Express;
@@ -23,11 +24,18 @@ class Main {
 	/**
 	 * App Init
 	 */
-	private init(): void {
-		Mongo.connectUtilityDb(
+	private async init(): Promise<void> {
+		// connect main database (mysql)
+		await MySQL.connectMainDb();
+
+		// connect utility database (mongo)
+		await Mongo.connectUtilityDb(
 			Config.db.UTILITY_MONGO_DB_DSN,
 			Config.db.UTILITY_MONGO_DB_NAME,
 		);
+
+		// init mysql association
+		new Associate();
 	}
 
 	/**
@@ -62,7 +70,7 @@ class Main {
 			Console.info(`Environment : ${Config.app.NODE_ENV}`);
 			Console.info(`Local       : http://localhost:${port}`);
 			Console.info(`Network     : http://${localIp}:${port}`);
-			Console.info(`HTTP url    : ${Config.app.BASE_URL}`);
+			Console.info(`HTTP url    : ${Config.app.BASE_URL}\n`);
 		});
 	}
 
