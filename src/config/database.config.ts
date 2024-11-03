@@ -11,6 +11,8 @@ export class DatabaseConfig {
 	public readonly MAIN_MYSQL_DB_PORT = parseInt(
 		process.env.MAIN_MYSQL_DB_PORT || '',
 	);
-	public readonly UTILITY_MONGO_DB_DSN = process.env.UTILITY_MONGO_DB_DSN || '';
-	public readonly UTILITY_MONGO_DB_NAME = process.env.UTILITY_MONGO_DB_NAME || '';
+	public readonly UTILITY_MONGO_DB_DSN =
+		process.env.UTILITY_MONGO_DB_DSN || '';
+	public readonly UTILITY_MONGO_DB_NAME =
+		process.env.UTILITY_MONGO_DB_NAME || '';
 }

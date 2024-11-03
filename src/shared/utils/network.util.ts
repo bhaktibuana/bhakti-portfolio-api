@@ -3,8 +3,8 @@ import os from 'os';
 export class Network {
 	/**
 	 * Get local IP address
-	 * 
-	 * @returns 
+	 *
+	 * @returns
 	 */
 	public static getLocalIp(): string {
 		const networkInterfaces = os.networkInterfaces();

@@ -19,12 +19,10 @@ export abstract class Router<T> extends Middleware {
 	/**
 	 * Map Middleware Function
 	 *
-	 * @param middlewares 
-	 * @returns 
+	 * @param middlewares
+	 * @returns
 	 */
-	private mapMiddleware(
-		middlewares: T_KeyMiddlewares = [],
-	) {
+	private mapMiddleware(middlewares: T_KeyMiddlewares = []) {
 		return middlewares
 			.map((middleware) => {
 				const middlewareFunction = this[middleware];
@@ -37,9 +35,9 @@ export abstract class Router<T> extends Middleware {
 	/**
 	 * Router GET
 	 *
-	 * @param path 
-	 * @param controller 
-	 * @param middlewares 
+	 * @param path
+	 * @param controller
+	 * @param middlewares
 	 */
 	protected get(
 		path: string,
@@ -56,9 +54,9 @@ export abstract class Router<T> extends Middleware {
 	/**
 	 * Router POST
 	 *
-	 * @param path 
-	 * @param controller 
-	 * @param middlewares 
+	 * @param path
+	 * @param controller
+	 * @param middlewares
 	 */
 	protected post(
 		path: string,
@@ -75,9 +73,9 @@ export abstract class Router<T> extends Middleware {
 	/**
 	 * Router PUT
 	 *
-	 * @param path 
-	 * @param controller 
-	 * @param middlewares 
+	 * @param path
+	 * @param controller
+	 * @param middlewares
 	 */
 	protected put(
 		path: string,
@@ -94,9 +92,9 @@ export abstract class Router<T> extends Middleware {
 	/**
 	 * Router DELETE
 	 *
-	 * @param path 
-	 * @param controller 
-	 * @param middlewares 
+	 * @param path
+	 * @param controller
+	 * @param middlewares
 	 */
 	protected delete(
 		path: string,
