@@ -54,4 +54,30 @@ export class UserRepository extends Repository {
 		}
 		return result;
 	}
+
+	/**
+	 * Find One by Email and Password
+	 *
+	 * @param res
+	 * @param email
+	 * @param password
+	 * @returns
+	 */
+	public async findLogin(
+		res: Response,
+		email: string,
+		password: string,
+	): Promise<User | null> {
+		let result: User | null = null;
+
+		try {
+			result = await User.findOne({
+				where: { email, password },
+				attributes: ['id', 'email'],
+			});
+		} catch (error) {
+			await this.catchErrorHandler(res, error, this.findLogin.name);
+		}
+		return result;
+	}
 }
