@@ -87,4 +87,25 @@ export class UserService extends Service {
 		}
 		return null;
 	}
+
+	/**
+	 * User Me Service
+	 *
+	 * @param res
+	 * @param id
+	 * @returns
+	 */
+	public async me(res: Response, id: number): Promise<User | null> {
+		try {
+			const user = await this.userRepo.findById(res, id);
+
+			if (!user)
+				this.errorHandler(this.STATUS_CODE.NOT_FOUND, 'User not found');
+
+			return user;
+		} catch (error) {
+			await this.catchErrorHandler(res, error, this.me.name);
+		}
+		return null;
+	}
 }
