@@ -80,4 +80,27 @@ export class UserRepository extends Repository {
 		}
 		return result;
 	}
+
+	/**
+	 * Find One User by id
+	 *
+	 * @param res
+	 * @param id
+	 * @returns
+	 */
+	public async findById(res: Response, id: number): Promise<User | null> {
+		let result: User | null = null;
+
+		try {
+			result = await User.findOne({
+				where: { id },
+				attributes: {
+					exclude: ['password'],
+				},
+			});
+		} catch (error) {
+			await this.catchErrorHandler(res, error, this.findById.name);
+		}
+		return result;
+	}
 }
