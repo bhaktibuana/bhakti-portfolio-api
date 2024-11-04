@@ -13,6 +13,7 @@ export class About extends Model<
 	InferCreationAttributes<About>
 > {
 	public id?: number;
+	public user_id!: number;
 	public name!: string;
 	public title!: string;
 	public summary_en!: string;
@@ -30,6 +31,15 @@ About.init(
 			primaryKey: true,
 			autoIncrement: true,
 			allowNull: false,
+		},
+		user_id: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			references: {
+				model: 'users',
+				key: 'id',
+			},
+			onDelete: 'CASCADE',
 		},
 		name: {
 			type: DataTypes.STRING(255),
