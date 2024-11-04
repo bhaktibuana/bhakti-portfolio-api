@@ -10,6 +10,15 @@ module.exports = {
 				autoIncrement: true,
 				allowNull: false,
 			},
+			user_id: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				references: {
+					model: 'users',
+					key: 'id',
+				},
+				onDelete: 'CASCADE',
+			},
 			name: {
 				type: Sequelize.STRING(255),
 				allowNull: false,
