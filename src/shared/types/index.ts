@@ -1,4 +1,4 @@
-import { User } from '@/app/models/user.model';
+import { User } from '@/app/models';
 import { I_Pagination } from '@/shared/interfaces';
 
 export type T_Console = 'log' | 'info' | 'warning' | 'error';
