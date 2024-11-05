@@ -2,7 +2,11 @@ import { Request, Response } from 'express';
 
 import { Controller } from '@/shared/libs/controller.lib';
 import { AboutService } from '@/app/services';
-import { AboutCreateRequestBody } from '@/transport/requests/about.request';
+import {
+	AboutCreateRequestBody,
+	AboutSetActiveRequestBody,
+	AboutSetActiveRequestParams,
+} from '@/transport/requests/about.request';
 import { AboutResponse } from '@/transport/responses/about.response';
 
 export class AboutController extends Controller {
@@ -39,6 +43,41 @@ export class AboutController extends Controller {
 			);
 		} catch (error) {
 			await this.catchErrorHandler(res, error, this.create.name);
+		}
+	}
+
+	/**
+	 * About set is_active true or false controller
+	 *
+	 * @param req
+	 * @param res
+	 */
+	public async setActive(req: Request, res: Response): Promise<void> {
+		try {
+			const reqParams = await this.getRequestParams(
+				AboutSetActiveRequestParams,
+				req,
+			);
+
+			const reqBody = await this.getRequestBody(
+				AboutSetActiveRequestBody,
+				req,
+			);
+
+			const result = await this.aboutSvc.setActive(
+				res,
+				reqParams,
+				reqBody,
+			);
+
+			this.response(
+				res,
+				'Set active success',
+				this.STATUS_CODE.OK,
+				this.aboutRes.setActive(result),
+			);
+		} catch (error) {
+			await this.catchErrorHandler(res, error, this.setActive.name);
 		}
 	}
 }

@@ -8,5 +8,6 @@ export class AboutRouter extends Router<AboutController> {
 		super(router, '/about', new AboutController());
 
 		this.post('/create', this.controller.create, ['auth', 'admin']);
+		this.put('/:id/set-active', this.controller.setActive, ['auth', 'admin']);
 	}
 }

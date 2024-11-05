@@ -13,4 +13,18 @@ export class AboutResponse {
 			id: payload.id,
 		};
 	}
+
+	/**
+	 * About setActive response
+	 *
+	 * @param payload
+	 * @returns
+	 */
+	public setActive(payload: About | null) {
+		if (!payload) return null;
+		return {
+			id: payload.id,
+			is_active: payload.is_active,
+		};
+	}
 }
