@@ -7,6 +7,8 @@ import {
 } from 'sequelize';
 
 import { MySQL } from '@/shared/utils';
+import { User } from '@/app/models/user.model';
+import { Summary } from '@/app/models/summary.model';
 
 export class About extends Model<
 	InferAttributes<About>,
@@ -16,12 +18,22 @@ export class About extends Model<
 	public user_id!: number;
 	public name!: string;
 	public title!: string;
-	public summary_en!: string;
-	public summary_id!: string;
+	public summary_id!: number;
 	public is_active?: boolean;
 	public created_at?: Date;
 	public updated_at?: Date;
 	public deleted_at?: Date | null;
+
+	public static associate() {
+		About.belongsTo(User, {
+			as: 'users',
+			foreignKey: 'user_id',
+		});
+		About.belongsTo(Summary, {
+			as: 'summaries',
+			foreignKey: 'summary_id',
+		});
+	}
 }
 
 About.init(
@@ -49,13 +61,14 @@ About.init(
 			type: DataTypes.STRING(255),
 			allowNull: false,
 		},
-		summary_en: {
-			type: DataTypes.TEXT(),
-			allowNull: false,
-		},
 		summary_id: {
-			type: DataTypes.TEXT(),
+			type: DataTypes.INTEGER,
 			allowNull: false,
+			references: {
+				model: 'summaries',
+				key: 'id',
+			},
+			onDelete: 'CASCADE',
 		},
 		is_active: {
 			type: DataTypes.BOOLEAN,
