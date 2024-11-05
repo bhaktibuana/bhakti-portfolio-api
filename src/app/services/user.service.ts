@@ -7,7 +7,7 @@ import {
 	UserRegisterRequestBody,
 } from '@/transport/requests/user.request';
 import { UserRepository } from '@/app/repositories';
-import { User } from '@/app/models/user.model';
+import { User } from '@/app/models';
 
 export class UserService extends Service {
 	private userRepo: UserRepository;
