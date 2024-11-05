@@ -1,13 +1,12 @@
 import { Router as ExpressRouter } from 'express';
 
 import { Router } from '@/shared/libs/router.lib';
-import { UserController } from '@/app/controllers';
+import { AboutController } from '@/app/controllers';
 
-export class UserRouter extends Router<UserController> {
+export class AboutRouter extends Router<AboutController> {
 	constructor(router: ExpressRouter) {
-		super(router, '/user', new UserController());
+		super(router, '/about', new AboutController());
 
-		this.post('/register', this.controller.register);
-		this.post('/login', this.controller.login);
+		this.post('/create', this.controller.create, ['auth', 'admin']);
 	}
 }
