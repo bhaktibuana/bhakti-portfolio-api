@@ -27,13 +27,14 @@ module.exports = {
 				type: Sequelize.STRING(255),
 				allowNull: false,
 			},
-			summary_en: {
-				type: Sequelize.TEXT(),
-				allowNull: false,
-			},
 			summary_id: {
-				type: Sequelize.TEXT(),
+				type: Sequelize.INTEGER,
 				allowNull: false,
+				references: {
+					model: 'summaries',
+					key: 'id',
+				},
+				onDelete: 'CASCADE',
 			},
 			is_active: {
 				type: Sequelize.BOOLEAN,
