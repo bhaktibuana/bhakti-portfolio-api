@@ -7,6 +7,7 @@ import {
 } from 'sequelize';
 
 import { MySQL } from '@/shared/utils';
+import { About } from '@/app/models/about.model';
 
 export class User extends Model<
 	InferAttributes<User>,
@@ -18,6 +19,14 @@ export class User extends Model<
 	public created_at?: Date;
 	public updated_at?: Date;
 	public deleted_at?: Date | null;
+	public is_admin?: boolean;
+
+	public static associate() {
+		User.hasMany(About, {
+			as: 'users',
+			foreignKey: 'user_id',
+		});
+	}
 }
 
 User.init(
@@ -50,6 +59,11 @@ User.init(
 		deleted_at: {
 			type: DataTypes.DATE,
 			allowNull: true,
+		},
+		is_admin: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			defaultValue: false,
 		},
 	},
 	{
