@@ -7,29 +7,36 @@ import {
 } from 'sequelize';
 
 import { MySQL } from '@/shared/utils';
-import { About } from '@/app/models/about.model';
+import { User } from '@/app/models/user.model';
+import { Summary } from '@/app/models/summary.model';
 
-export class User extends Model<
-	InferAttributes<User>,
-	InferCreationAttributes<User>
+export class About extends Model<
+	InferAttributes<About>,
+	InferCreationAttributes<About>
 > {
 	public id?: number;
-	public email!: string;
-	public password!: string;
+	public user_id!: number;
+	public name!: string;
+	public title!: string;
+	public summary_id!: number;
+	public is_active?: boolean;
 	public created_at?: Date;
 	public updated_at?: Date;
 	public deleted_at?: Date | null;
-	public is_admin?: boolean;
 
 	public static associate() {
-		User.hasMany(About, {
+		About.belongsTo(User, {
 			as: 'users',
 			foreignKey: 'user_id',
+		});
+		About.belongsTo(Summary, {
+			as: 'summaries',
+			foreignKey: 'summary_id',
 		});
 	}
 }
 
-User.init(
+About.init(
 	{
 		id: {
 			type: DataTypes.INTEGER,
@@ -37,14 +44,36 @@ User.init(
 			autoIncrement: true,
 			allowNull: false,
 		},
-		email: {
+		user_id: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			references: {
+				model: 'users',
+				key: 'id',
+			},
+			onDelete: 'CASCADE',
+		},
+		name: {
 			type: DataTypes.STRING(255),
-			unique: true,
 			allowNull: false,
 		},
-		password: {
+		title: {
 			type: DataTypes.STRING(255),
 			allowNull: false,
+		},
+		summary_id: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			references: {
+				model: 'summaries',
+				key: 'id',
+			},
+			onDelete: 'CASCADE',
+		},
+		is_active: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			defaultValue: false,
 		},
 		created_at: {
 			type: DataTypes.DATE,
@@ -60,14 +89,9 @@ User.init(
 			type: DataTypes.DATE,
 			allowNull: true,
 		},
-		is_admin: {
-			type: DataTypes.BOOLEAN,
-			allowNull: false,
-			defaultValue: false,
-		},
 	},
 	{
-		tableName: 'users',
+		tableName: 'abouts',
 		freezeTableName: false,
 		timestamps: false,
 		sequelize: MySQL.getMainDbConnection(),

@@ -1,4 +1,4 @@
-import { User } from '@/app/models/user.model';
+import { User } from '@/app/models';
 
 export class UserResponse {
 	/**

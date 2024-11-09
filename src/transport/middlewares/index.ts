@@ -1,7 +1,7 @@
 import { BaseMiddleware } from '@/transport/middlewares/base.middleware';
 import { Next, Req, Res } from '@/shared/types/express';
 import { UserService } from '@/app/services';
-import { User } from '@/app/models/user.model';
+import { User } from '@/app/models';
 import { Helper } from '@/shared/helpers';
 import { T_UserAuth } from '@/shared/types';
 
@@ -61,6 +61,30 @@ export class Middleware extends BaseMiddleware {
 			next();
 		} catch (error) {
 			await this.catchErrorHandler(res, error, this.auth.name);
+		}
+	}
+
+	/**
+	 * Is admin validation middleware
+	 *
+	 * @param _req
+	 * @param res
+	 * @param next
+	 */
+	public async admin(_req: Req, res: Res, next: Next): Promise<void> {
+		try {
+			const user = res.locals.user;
+			const isAdmin = user.is_admin;
+
+			if (!isAdmin)
+				this.errorHandler(
+					this.STATUS_CODE.FORBIDDEN,
+					'Admin access only',
+				);
+
+			next();
+		} catch (error) {
+			await this.catchErrorHandler(res, error, this.admin.name);
 		}
 	}
 }

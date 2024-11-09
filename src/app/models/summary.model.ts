@@ -9,27 +9,26 @@ import {
 import { MySQL } from '@/shared/utils';
 import { About } from '@/app/models/about.model';
 
-export class User extends Model<
-	InferAttributes<User>,
-	InferCreationAttributes<User>
+export class Summary extends Model<
+	InferAttributes<Summary>,
+	InferCreationAttributes<Summary>
 > {
 	public id?: number;
-	public email!: string;
-	public password!: string;
+	public english!: string;
+	public indonesian!: string;
 	public created_at?: Date;
 	public updated_at?: Date;
 	public deleted_at?: Date | null;
-	public is_admin?: boolean;
 
 	public static associate() {
-		User.hasMany(About, {
-			as: 'users',
-			foreignKey: 'user_id',
+		Summary.hasOne(About, {
+			as: 'summaries',
+			foreignKey: 'summary_id',
 		});
 	}
 }
 
-User.init(
+Summary.init(
 	{
 		id: {
 			type: DataTypes.INTEGER,
@@ -37,13 +36,12 @@ User.init(
 			autoIncrement: true,
 			allowNull: false,
 		},
-		email: {
-			type: DataTypes.STRING(255),
-			unique: true,
+		english: {
+			type: DataTypes.TEXT(),
 			allowNull: false,
 		},
-		password: {
-			type: DataTypes.STRING(255),
+		indonesian: {
+			type: DataTypes.TEXT(),
 			allowNull: false,
 		},
 		created_at: {
@@ -60,14 +58,9 @@ User.init(
 			type: DataTypes.DATE,
 			allowNull: true,
 		},
-		is_admin: {
-			type: DataTypes.BOOLEAN,
-			allowNull: false,
-			defaultValue: false,
-		},
 	},
 	{
-		tableName: 'users',
+		tableName: 'summaries',
 		freezeTableName: false,
 		timestamps: false,
 		sequelize: MySQL.getMainDbConnection(),

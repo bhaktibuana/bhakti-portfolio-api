@@ -1,7 +1,7 @@
 import { Response } from 'express';
 
 import { Repository } from '@/shared/libs/repository.lib';
-import { User } from '@/app/models/user.model';
+import { User } from '@/app/models';
 
 export class UserRepository extends Repository {
 	constructor() {
