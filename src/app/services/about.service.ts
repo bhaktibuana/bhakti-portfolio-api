@@ -8,18 +8,24 @@ import {
 } from '@/transport/requests/about.request';
 import { Res } from '@/shared/types/express';
 import { MySQL } from '@/shared/utils';
-import { AboutRepository, SummaryRepository } from '@/app/repositories';
-import { About } from '@/app/models';
+import {
+	AboutDetailViewRepository,
+	AboutRepository,
+	SummaryRepository,
+} from '@/app/repositories';
+import { About, AboutDetailView } from '@/app/models';
 
 export class AboutService extends Service {
 	private summaryRepo: SummaryRepository;
 	private aboutRepo: AboutRepository;
+	private aboutDetailViewRepo: AboutDetailViewRepository;
 
 	constructor() {
 		super();
 
 		this.summaryRepo = new SummaryRepository();
 		this.aboutRepo = new AboutRepository();
+		this.aboutDetailViewRepo = new AboutDetailViewRepository();
 	}
 
 	/**
@@ -85,6 +91,14 @@ export class AboutService extends Service {
 		return null;
 	}
 
+	/**
+	 * About set active true or false service
+	 *
+	 * @param res
+	 * @param reqParams
+	 * @param reqBody
+	 * @returns
+	 */
 	public async setActive(
 		res: Response,
 		reqParams: AboutSetActiveRequestParams,
@@ -123,6 +137,34 @@ export class AboutService extends Service {
 			return updatedAbout;
 		} catch (error) {
 			await this.catchErrorHandler(res, error, this.setActive.name);
+		}
+		return null;
+	}
+
+	/**
+	 * About detail service
+	 *
+	 * @param res
+	 * @returns
+	 */
+	public async detail(res: Response): Promise<AboutDetailView | null> {
+		const user = (res as Res).locals.user;
+
+		try {
+			const aboutDetail = await this.aboutDetailViewRepo.findOneByUserId(
+				res,
+				user.id as number,
+			);
+
+			if (!aboutDetail)
+				this.errorHandler(
+					this.STATUS_CODE.NOT_FOUND,
+					'About data not found',
+				);
+
+			return aboutDetail;
+		} catch (error) {
+			await this.catchErrorHandler(res, error, this.detail.name);
 		}
 		return null;
 	}

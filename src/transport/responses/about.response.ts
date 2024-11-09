@@ -1,4 +1,4 @@
-import { About } from '@/app/models';
+import { About, AboutDetailView } from '@/app/models';
 
 export class AboutResponse {
 	/**
@@ -26,5 +26,16 @@ export class AboutResponse {
 			id: payload.id,
 			is_active: payload.is_active,
 		};
+	}
+
+	/**
+	 * About detail response
+	 *
+	 * @param payload
+	 * @returns
+	 */
+	public detail(payload: AboutDetailView | null) {
+		if (!payload) return null;
+		return payload;
 	}
 }

@@ -80,4 +80,25 @@ export class AboutController extends Controller {
 			await this.catchErrorHandler(res, error, this.setActive.name);
 		}
 	}
+
+	/**
+	 * About get detail
+	 *
+	 * @param req
+	 * @param res
+	 */
+	public async detail(req: Request, res: Response): Promise<void> {
+		try {
+			const result = await this.aboutSvc.detail(res);
+
+			this.response(
+				res,
+				'About detail data',
+				this.STATUS_CODE.OK,
+				this.aboutRes.detail(result),
+			);
+		} catch (error) {
+			await this.catchErrorHandler(res, error, this.detail.name);
+		}
+	}
 }
